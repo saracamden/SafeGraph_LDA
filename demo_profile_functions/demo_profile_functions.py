@@ -50,59 +50,17 @@ def get_cbg_field_desc(ocd_dir=None, drive=None):
         df = pd_read_csv_drive(get_drive_id('cbg_field_descriptions.csv'), drive)
     return(df)
 
-def get_age_by_sex_groups2():
-    age_groups = {'Ages 15-17': ['B01001e30', 'B01001e6'],
-                  'Ages 18-24' : ['B01001e10', 'B01001e31', 'B01001e32', 'B01001e7', 'B01001e8', 'B01001e33', 'B01001e34', 'B01001e9', 'B01001m10'],
-                  'Ages 25-34' : ['B01001e11', 'B01001e12', 'B01001e35', 'B01001e36'],
-        'Ages 35-44' : ['B01001e13', 'B01001e14', 'B01001e37', 'B01001e38'],
-        'Ages 45-54' : ['B01001e15', 'B01001e16', 'B01001e39', 'B01001e40'],
-        'Ages 55-64' : ['B01001e17', 'B01001e18', 'B01001e19', 'B01001e41', 'B01001e42', 'B01001e43'],
-        'Ages 65+' : ['B01001e20', 'B01001e21', 'B01001e22', 'B01001e23', 'B01001e24', 'B01001e25', 'B01001e44', 'B01001e45', 'B01001e46', 'B01001e47', 'B01001e48', 'B01001e49']
+def get_age_by_sex_groups3():
+    age_groups = {'Legal Drinking Age' : ['B01001e33', 'B01001e34', 'B01001e9', 'B01001m10', 'B01001e11', 'B01001e12', 'B01001e35', 'B01001e36', 'B01001e13', 'B01001e14', 'B01001e37', 'B01001e38', 'B01001e15', 'B01001e16', 'B01001e39', 'B01001e40', 'B01001e17', 'B01001e18', 'B01001e19', 'B01001e41', 'B01001e42', 'B01001e43', 'B01001e20', 'B01001e21', 'B01001e22', 'B01001e23', 'B01001e24', 'B01001e25', 'B01001e44', 'B01001e45', 'B01001e46', 'B01001e47', 'B01001e48', 'B01001e49’],
+                                          ‘Minors’ : [‘B01001e27’, ‘B01001e28’, ‘B01001e29’, ‘B01001e3’, ‘B01001e30’, ‘B01001e31’, ‘B01001e32’, ‘B01001e4’, ‘B01001e5’, ‘B01001e6’, ‘B01001e7’, ‘B01001e8’]
+                  
     }
     
-    age_groups_new_codes = {'Ages 15-17' : 'B01P1517',
-                            'Ages 18-24' : 'B01P1824',
-                            'Ages 25-34' : 'B01P2534',
-            'Ages 35-44' : 'B01P3544',
-            'Ages 45-54' : 'B01P4554',
-            'Ages 55-64' : 'B01P5564',
-            'Ages 65+' : 'B01P65PL'
-                           }
+    age_groups_new_codes = {'Legal Drinking Age' : 'B01P21PL’,
+                            ‘Minors’ : ‘B01PUN21’ 
+    }
     
     return(age_groups, age_groups_new_codes)
- 
-def get_household_income_groups():
-    inc_groups =  {'Less than $59,999' : ['B19001e2','B19001e3', 'B19001e4', 'B19001e5', 'B19001e6', 'B19001e7', 'B19001e8', 'B19001e9','B19001e10', 'B19001e11',],
-                  '$60,000 To $99,999' : ['B19001e12','B19001e13'],
-                  '$100,000 Or More' : ['B19001e14','B19001e15','B19001e16','B19001e17']
-                 }
-    
-    # Some new made-up codes
-    inc_groups_new_codes = {'Less than $59,999' : 'B19xxx59',
-                            '$60,000 To $99,999' : 'B1960x99',
-                            '$100,000 Or More' : 'B19100xx'
-                           }
-    
-    return(inc_groups, inc_groups_new_codes)
-
-def get_edu_attainment_groups():
-    
-    edu_groups =  {"Less than High School Diploma" : ['B15003e10','B15003e11','B15003e12','B15003e13','B15003e14','B15003e15','B15003e16','B15003e5','B15003e6','B15003e7','B15003e8','B15003e9','B15003e2','B15003e3','B15003e4'],
-                   "HS Diploma or GED" : ['B15003e17','B15003e18'],
-                   "Some College and/or Associate's Degree" : ['B15003e19','B15003e20','B15003e21'],
-                   "Bachelor's Degree" : ['B15003e22'],
-                   "Master's, Doctorate, and/or Prof School Degree" : ['B15003e23','B15003e24','B15003e25']
-                 }
-    
-    # Some new made-up codes
-    edu_groups_new_codes = {'Less than High School Diploma' : 'B15003aa',
-                            "HS Diploma or GED" : 'B15003bb',
-                            "Some College and/or Associate's Degree" : 'B15003cc',
-                            "Bachelor's Degree" : 'B15003dd',
-                            "Master's, Doctorate, and/or Prof School Degree" :'B15003ee'
-                 }
-    
-    return(edu_groups, edu_groups_new_codes)
 
 def pull_vals_of_dict_into_list(my_dict):
     return(flatten_list([val for key,val in my_dict.items()]))
@@ -110,17 +68,11 @@ def pull_vals_of_dict_into_list(my_dict):
 def get_final_table_ids(field_level_1):
     # final_codes are the table_ids we expect in our final cleaned and aggregated data 
     # (including made up codes; fake agg codes are substituted in for the unaggregated codes_
-        
-    inc_read_codes, inc_final_codes = get_household_income_groups()
-    edu_read_codes, edu_final_codes = get_edu_attainment_groups()
-    age_read_codes, age_final_codes = get_age_by_sex_groups2()
+
+    age_read_codes, age_final_codes = get_age_by_sex_groups3()
     
     
     final_codes = {'Sex By Age' : pull_vals_of_dict_into_list(age_final_codes),
-                   'Hispanic Or Latino Origin' : ['B03003e3', 'B03003e2'],
-                   'Race' : ['B02001e2','B02001e3','B02001e4','B02001e5','B02001e6','B02001e7','B02001e8'],
-                   'Educational Attainment For The Population 25 Years And Over' : pull_vals_of_dict_into_list(edu_final_codes),
-                   'Aggregate Household Income In The Past 12 Months (In 2016 Inflation-Adjusted Dollars)' : pull_vals_of_dict_into_list(inc_final_codes)
                   }
     
     return(final_codes[field_level_1])
@@ -153,48 +105,21 @@ def aggregate_census_columns(cen_df_, cbg_field_desc_, agg_groups, agg_groups_ne
 def aggregate_ageSex_vars(cen_df_, cbg_field_desc_):
     
     cen_df = cen_df_.copy() # to avoid assignment warning
-    age_groups_2, age_groups_new_codes_2 = get_age_by_sex_groups2()
+    age_groups_3, age_groups_new_codes_3 = get_age_by_sex_groups3()
     field_level_1_str = 'Sex By Age'
     field_level_3_str = 'Total Population -- (Estimate)'
-    cen_df, cbg_field_desc_ = aggregate_census_columns(cen_df, cbg_field_desc_, age_groups_2, age_groups_new_codes_2, field_level_1_str, field_level_3_str)
+    cen_df, cbg_field_desc_ = aggregate_census_columns(cen_df, cbg_field_desc_, age_groups_3, age_groups_new_codes_3, field_level_1_str, field_level_3_str)
    
     return(cen_df, cbg_field_desc_)
-  
-def aggregate_HouseholdIncome_vars(cen_df_, cbg_field_desc_):
-    
-    cen_df = cen_df_.copy() # to avoid assignment warning
-    inc_groups, inc_groups_new_codes = get_household_income_groups()
-    field_level_1_str = 'Household Income In The Past 12 Months (In 2016 Inflation-Adjusted Dollars)'
-    field_level_3_str = 'Households -- (Estimate)'
-    cen_df, cbg_field_desc_ = aggregate_census_columns(cen_df, cbg_field_desc_, inc_groups, inc_groups_new_codes, field_level_1_str, field_level_3_str)
-   
-    return(cen_df, cbg_field_desc_)
-
-def aggregate_edu_variables(cen_df_, cbg_field_desc_):
-    
-    cen_df = cen_df_.copy() # to avoid assignment warning
-    edu_groups, edu_groups_new_codes = get_edu_attainment_groups()
-    field_level_1_str = 'Educational Attainment For The Population 25 Years And Over'
-    field_level_3_str = 'Population 25 Years And Over -- (Estimate)'
-    cen_df, cbg_field_desc_ = aggregate_census_columns(cen_df,cbg_field_desc_, edu_groups, edu_groups_new_codes, field_level_1_str, field_level_3_str)
-   
-    return(cen_df, cbg_field_desc_)
-
 
 def reaggregate_census_data(cen_df, cbg_field_desc, demos_to_analyze, verbose=False):
     # Manually re-aggregate some categories into fewer columns
     # optionally print shape of df after each reaggregation to see total columns shrinking
     
     if(verbose): print("Starting reaggregations (this is a slow step).\ncensus data starting shape: \n{0}".format(cen_df.shape))
-    if 'Educational Attainment For The Population 25 Years And Over' in demos_to_analyze:
-        cen_df, cbg_field_desc = aggregate_edu_variables(cen_df, cbg_field_desc)
-        if(verbose): print("Education aggregation complete.\n{0}".format(cen_df.shape))
     if 'Sex By Age' in demos_to_analyze:
         cen_df, cbg_field_desc = aggregate_ageSex_vars(cen_df, cbg_field_desc)
         if(verbose): print("Age aggregation complete.\n{0}".format(cen_df.shape))
-    if 'Aggregate Household Income In The Past 12 Months (In 2016 Inflation-Adjusted Dollars)' in demos_to_analyze:
-        cen_df, cbg_field_desc = aggregate_HouseholdIncome_vars(cen_df, cbg_field_desc)
-        if(verbose): print("Income aggregation complete.\n{0}".format(cen_df.shape))
     
     # Drop all the columns that are not essential to our cause
     columns_to_keep = flatten_list([flatten_list(get_final_table_ids(demo)) for demo in demos_to_analyze]) + ['census_block_group', 'B01001e1']
@@ -211,11 +136,7 @@ def get_raw_census_data(demos_to_analyze, open_census_data_dir, drive=None, verb
     # Note: OpenCensusData public GDrive folder: https://drive.google.com/drive/u/1/folders/1btSS6zo7_wJCCXAigkbhnaoeU-Voa9pG
     
     # These are the supported options for field_level_1 strings: 
-    #    'Sex By Age', 
-    #    'Race', 
-    #    'Hispanic Or Latino Origin', 
-    #    'Educational Attainment For The Population 25 Years And Over',
-    #    'Aggregate Household Income In The Past 12 Months (In 2016 Inflation-Adjusted Dollars)'
+    #    'Sex By Age'
     
     cbg_field_desc = get_cbg_field_desc(ocd_dir=open_census_data_dir, drive=drive)
     prefixes = set(get_census_prefix(demos_to_analyze, cbg_field_desc) + ['b01']) # 'b01' we need for total_population
@@ -412,32 +333,13 @@ def format_group_labels(group_labels, space_split=3):
     group_labels = [gl.split(" Alone")[0] for gl in group_labels]
     return(['\n' + ' \n '.join( [' '.join(gl.split(' ')[0:space_split]), ' '.join(gl.split(' ')[space_split:])]) for gl in group_labels])
 
-def get_income_col_order():
-    a,b = get_household_income_groups()
-    return(pd.DataFrame({'demo_code' : [b[this] for this in  list(a.keys())], 'col_order' : list(range(len(list(a.keys()))))}))
-
-def get_edu_col_order():
-    a,b = get_edu_attainment_groups()
-    return(pd.DataFrame({'demo_code' : [b[this] for this in  list(a.keys())], 'col_order' : list(range(len(list(a.keys()))))}))
-
 def get_age_col_order():
-    a,b = get_age_by_sex_groups2()
+    a,b = get_age_by_sex_groups3()
     return(pd.DataFrame({'demo_code' : [b[this] for this in  list(a.keys())], 'col_order' : list(range(len(list(a.keys()))))}))
-
-def get_race_col_order():
-    col_order = get_final_table_ids('Race')
-    return(pd.DataFrame({'demo_code' : col_order, 'col_order' : list(range(len(col_order)))}))
-
-def get_hispanic_col_order():
-    col_order = get_final_table_ids('Hispanic Or Latino Origin')
-    return(pd.DataFrame({'demo_code' : col_order, 'col_order' : list(range(len(col_order)))}))
                    
 def get_col_orders():
-    return(pd.concat([get_income_col_order(), 
-                      get_edu_col_order(),
-                      get_age_col_order(),
-                      get_race_col_order(),
-                     get_hispanic_col_order()]))
+    return(pd.concat([
+                      get_age_col_order()]))
 
 
     
